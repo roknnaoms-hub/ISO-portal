@@ -35,12 +35,12 @@ const CONTENT_TABS = [
 ];
 
 const KCLI_COVERAGE = [
-  "생성형 AI",
-  "사이버리터러시 교육",
-  "사이버보안·개인정보보호",
-  "디지털 시민성",
-  "AI·디지털 정책",
-  "연구동향·칼럼·인터뷰",
+  { title: "생성형 AI", icon: "AI" },
+  { title: "사이버리터러시 교육", icon: "EDU" },
+  { title: "사이버보안·개인정보보호", icon: "SEC" },
+  { title: "디지털 시민성", icon: "CIV" },
+  { title: "AI·디지털 정책", icon: "POL" },
+  { title: "연구동향·칼럼·인터뷰", icon: "R&D" },
 ];
 
 const KCLI_ARTICLES = [
@@ -63,6 +63,8 @@ const KCLI_ARTICLES = [
       "일상 속에서 지켜야 할 보안수칙과 최신 위협 사례를 통해 안전한 디지털 생활을 돕습니다.",
   },
 ];
+
+const KCLI_NAV = ["매체소개", "보도분야", "주요기사", "운영원칙", "제보·문의"];
 
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
 function clauseDepth(id) {
@@ -254,15 +256,37 @@ function SearchBar({ value, onChange, onClear }) {
 function KcliJournalHome() {
   return (
     <main className="kcli-page">
+      <header className="kcli-site-header">
+        <div className="kcli-logo">
+          <strong>KCLI</strong>
+          <span>
+            한국사이버리터러시저널
+            <small>Korea Cyber Literacy Journal</small>
+          </span>
+        </div>
+        <nav className="kcli-site-nav" aria-label="한국사이버리터러시저널 메뉴">
+          {KCLI_NAV.map((item) => (
+            <a key={item} href={`#${item.replace(/[·\s]/g, "-")}`}>
+              {item}
+            </a>
+          ))}
+        </nav>
+        <button className="kcli-search-btn" type="button" aria-label="검색">
+          <span />
+        </button>
+      </header>
+
       <section className="kcli-hero">
         <div className="kcli-hero-copy">
-          <p className="kcli-eyebrow">Korea Cyber Literacy Journal</p>
-          <h2>한국사이버리터러시저널</h2>
+          <h2>디지털 시대의 시민역량과 사이버안전을 연결하는 전문 저널</h2>
           <p>
-            디지털 시대의 시민역량과 사이버안전을 연결하는 전문 저널입니다.
             사이버리터러시, 인공지능 리터러시, 디지털 시민역량, 사이버안전 및
             정보윤리에 대한 정확한 정보와 심층 분석을 제공합니다.
           </p>
+          <div className="kcli-actions">
+            <a className="kcli-primary-link" href="#주요기사">최신 기사 보기</a>
+            <a className="kcli-secondary-link" href="#제보-문의">제보·문의</a>
+          </div>
         </div>
         <aside className="kcli-mission">
           <h3>창간 목적</h3>
@@ -275,7 +299,7 @@ function KcliJournalHome() {
         </aside>
       </section>
 
-      <section className="kcli-section">
+      <section className="kcli-section kcli-intro" id="매체소개">
         <h3>매체소개</h3>
         <p>
           한국사이버리터러시저널은 사이버리터러시, 인공지능 리터러시, 디지털
@@ -285,22 +309,27 @@ function KcliJournalHome() {
         </p>
       </section>
 
-      <section className="kcli-section">
+      <section className="kcli-section" id="보도분야">
         <h3>주요 보도분야</h3>
         <div className="kcli-coverage-grid">
           {KCLI_COVERAGE.map((item) => (
-            <article className="kcli-coverage-card" key={item}>
-              {item}
+            <article className="kcli-coverage-card" key={item.title}>
+              <span>{item.icon}</span>
+              <strong>{item.title}</strong>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="kcli-section">
-        <h3>주요기사</h3>
+      <section className="kcli-section" id="주요기사">
+        <div className="kcli-section-head">
+          <h3>주요기사</h3>
+          <a href="#주요기사">더보기</a>
+        </div>
         <div className="kcli-article-grid">
           {KCLI_ARTICLES.map((article) => (
             <article className="kcli-article-card" key={article.title}>
+              <div className="kcli-article-image" aria-hidden="true" />
               <span>{article.category}</span>
               <h4>{article.title}</h4>
               <p>{article.summary}</p>
@@ -311,16 +340,17 @@ function KcliJournalHome() {
       </section>
 
       <section className="kcli-bottom-grid">
-        <article className="kcli-panel">
+        <article className="kcli-panel" id="운영원칙">
           <h3>운영원칙</h3>
           <ul>
             <li>정확하고 공정한 보도를 위해 사실 확인을 최우선으로 합니다.</li>
             <li>광고와 기사는 명확히 구분하여 독자의 판단을 존중합니다.</li>
             <li>오류 보도에 대해서는 정정보도와 반론 보도 요청을 수용합니다.</li>
             <li>독자의 개인정보를 보호하며, 관련 법령을 준수합니다.</li>
+            <li>AI 생성 콘텐츠는 책임 있는 이용과 투명한 출처 표기를 원칙으로 합니다.</li>
           </ul>
         </article>
-        <article className="kcli-panel">
+        <article className="kcli-panel" id="제보-문의">
           <h3>제보·문의</h3>
           <dl className="kcli-contact">
             <div>
