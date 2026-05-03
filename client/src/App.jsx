@@ -64,8 +64,22 @@ const KCLI_ARTICLES = [
   },
 ];
 
-const KCLI_NAV = ["매체소개", "보도분야", "주요기사", "운영원칙", "제보·문의"];
-const KCLI_HERO_IMAGE = `${import.meta.env.BASE_URL}images/kcli-hero-banner.png`;
+const KCLI_NAV = [
+  { label: "매체소개", id: "매체소개" },
+  { label: "보도분야", id: "보도분야" },
+  { label: "주요기사", id: "주요기사" },
+  { label: "운영원칙", id: "운영원칙" },
+  { label: "제보·문의", id: "제보-문의" },
+];
+
+const kcliImage = (fileName) => `${import.meta.env.BASE_URL}images/${fileName}`;
+
+const KCLI_HERO_IMAGES = {
+  default: kcliImage("kcli-hero-banner.png"),
+  매체소개: kcliImage("kcli-hero-about.png"),
+  보도분야: kcliImage("kcli-hero-coverage.png"),
+  주요기사: kcliImage("kcli-hero-articles.png"),
+};
 
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
 function clauseDepth(id) {
@@ -255,6 +269,13 @@ function SearchBar({ value, onChange, onClear }) {
 }
 
 function KcliJournalHome() {
+  const [activeVisual, setActiveVisual] = useState("default");
+  const heroImage = KCLI_HERO_IMAGES[activeVisual] || KCLI_HERO_IMAGES.default;
+
+  const handleKcliNavClick = (item) => {
+    setActiveVisual(KCLI_HERO_IMAGES[item.id] ? item.id : "default");
+  };
+
   return (
     <main className="kcli-page">
       <header className="kcli-site-header">
@@ -267,8 +288,13 @@ function KcliJournalHome() {
         </div>
         <nav className="kcli-site-nav" aria-label="한국사이버리터러시저널 메뉴">
           {KCLI_NAV.map((item) => (
-            <a key={item} href={`#${item.replace(/[·\s]/g, "-")}`}>
-              {item}
+            <a
+              key={item.id}
+              className={activeVisual === item.id ? "active" : ""}
+              href={`#${item.id}`}
+              onClick={() => handleKcliNavClick(item)}
+            >
+              {item.label}
             </a>
           ))}
         </nav>
@@ -279,7 +305,7 @@ function KcliJournalHome() {
 
       <section
         className="kcli-hero"
-        style={{ "--kcli-hero-image": `url("${KCLI_HERO_IMAGE}")` }}
+        style={{ "--kcli-hero-image": `url("${heroImage}")` }}
       >
         <div className="kcli-hero-copy">
           <h2>디지털 시대의 시민역량과 사이버안전을 연결하는 전문 저널</h2>
@@ -288,8 +314,20 @@ function KcliJournalHome() {
             정보윤리에 대한 정확한 정보와 심층 분석을 제공합니다.
           </p>
           <div className="kcli-actions">
-            <a className="kcli-primary-link" href="#주요기사">최신 기사 보기</a>
-            <a className="kcli-secondary-link" href="#제보-문의">제보·문의</a>
+            <a
+              className="kcli-primary-link"
+              href="#주요기사"
+              onClick={() => setActiveVisual("주요기사")}
+            >
+              최신 기사 보기
+            </a>
+            <a
+              className="kcli-secondary-link"
+              href="#제보-문의"
+              onClick={() => setActiveVisual("default")}
+            >
+              제보·문의
+            </a>
           </div>
         </div>
         <aside className="kcli-mission">

@@ -465,6 +465,18 @@ mark { background: var(--color-mark); padding: 0 2px; border-radius: 2px; }
 .kcli-site-nav a:hover {
   color: #064b95;
 }
+.kcli-site-nav a.active {
+  color: #064b95;
+}
+.kcli-site-nav a.active::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: #0b5aa8;
+}
 .kcli-search-btn {
   width: 36px;
   height: 36px;
@@ -513,6 +525,7 @@ mark { background: var(--color-mark); padding: 0 2px; border-radius: 2px; }
     linear-gradient(145deg, #eaf5ff 0%, #cbe4f8 42%, #164d7e 100%);
   background-position: center;
   background-size: cover;
+  transition: background-image .25s ease;
 }
 .kcli-hero::before {
   content: "";
