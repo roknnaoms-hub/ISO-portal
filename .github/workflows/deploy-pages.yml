@@ -29,13 +29,20 @@ jobs:
           cache: npm
           cache-dependency-path: client/package-lock.json
 
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build
         env:
           VITE_BASE_PATH: /ISO-portal/
+          VITE_STATIC_DATA: "true"
         run: npm run build
+
+      - name: Preserve static assets for Pages
+        run: touch dist/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -45,6 +52,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

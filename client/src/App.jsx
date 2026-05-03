@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import axios from "axios";
 
 // ── API 설정 ──────────────────────────────────────────────────────────────────
-const IS_STATIC =
-  typeof window !== "undefined" &&
-  window.location.hostname.endsWith("github.io");
+const USE_STATIC_DATA =
+  import.meta.env.VITE_STATIC_DATA === "true" ||
+  (typeof window !== "undefined" &&
+    window.location.hostname.endsWith("github.io"));
 
 const api = axios.create({
-  baseURL: IS_STATIC ? "" : (import.meta.env.VITE_API_BASE_URL || "http://localhost:4200"),
+  baseURL: USE_STATIC_DATA ? "" : (import.meta.env.VITE_API_BASE_URL || "http://localhost:4200"),
 });
 
 async function loadStaticData() {
@@ -31,6 +32,55 @@ const CONTENT_TABS = [
   { key: "org", label: "조직담당자 중점사항" },
   { key: "auditor", label: "인증심사원 중점사항" },
   { key: "defect", label: "결함사례" },
+];
+
+const KCLI_COVERAGE = [
+  "생성형 AI",
+  "사이버리터러시 교육",
+  "사이버보안·개인정보보호",
+  "디지털 시민성",
+  "AI·디지털 정책",
+  "연구동향·칼럼·인터뷰",
+];
+
+const KCLI_ARTICLES = [
+  {
+    category: "창간기획",
+    title: "AI 시대, 사이버리터러시는 왜 핵심 시민역량인가",
+    summary:
+      "디지털 전환이 가속화되는 시대, 시민 모두에게 요구되는 사이버리터러시의 의미와 필요성을 조명합니다.",
+  },
+  {
+    category: "교육",
+    title: "학교와 공공기관을 위한 AI 리터러시 교육의 방향",
+    summary:
+      "효과적인 교육 설계와 실천 전략을 통해 조직과 개인의 디지털 역량을 높이는 방법을 제안합니다.",
+  },
+  {
+    category: "사이버안전",
+    title: "딥페이크와 피싱 위협에 대응하는 생활 보안수칙",
+    summary:
+      "일상 속에서 지켜야 할 보안수칙과 최신 위협 사례를 통해 안전한 디지털 생활을 돕습니다.",
+  },
+];
+
+const GITHUB_INSTALL_STEPS = [
+  {
+    title: "1. 저장소 가져오기",
+    command: "git clone https://github.com/roknnaoms-hub/ISO-portal.git\ncd ISO-portal",
+  },
+  {
+    title: "2. 클라이언트 의존성 설치",
+    command: "cd client\nnpm ci",
+  },
+  {
+    title: "3. 정적 배포본 빌드",
+    command: "VITE_BASE_PATH=/ISO-portal/ VITE_STATIC_DATA=true npm run build",
+  },
+  {
+    title: "4. 로컬 미리보기",
+    command: "npm run preview",
+  },
 ];
 
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
@@ -74,6 +124,31 @@ function FrameworkSelector({ selected, onChange }) {
           <span className="fw-desc">{FRAMEWORK_LABELS[fw]?.split(" ").slice(2).join(" ")}</span>
         </button>
       ))}
+    </nav>
+  );
+}
+
+function SectionModeNav({ mode, onChange }) {
+  return (
+    <nav className="mode-nav" aria-label="콘텐츠 선택">
+      <button
+        className={`mode-btn${mode === "iso" ? " active" : ""}`}
+        onClick={() => onChange("iso")}
+      >
+        ISO 포털
+      </button>
+      <button
+        className={`mode-btn${mode === "kcli" ? " active" : ""}`}
+        onClick={() => onChange("kcli")}
+      >
+        KCLI 저널
+      </button>
+      <button
+        className={`mode-btn${mode === "github" ? " active" : ""}`}
+        onClick={() => onChange("github")}
+      >
+        GitHub 설치
+      </button>
     </nav>
   );
 }
@@ -201,11 +276,169 @@ function SearchBar({ value, onChange, onClear }) {
   );
 }
 
+function KcliJournalHome() {
+  return (
+    <main className="kcli-page">
+      <section className="kcli-hero">
+        <div className="kcli-hero-copy">
+          <p className="kcli-eyebrow">Korea Cyber Literacy Journal</p>
+          <h2>한국사이버리터러시저널</h2>
+          <p>
+            디지털 시대의 시민역량과 사이버안전을 연결하는 전문 저널입니다.
+            사이버리터러시, 인공지능 리터러시, 디지털 시민역량, 사이버안전 및
+            정보윤리에 대한 정확한 정보와 심층 분석을 제공합니다.
+          </p>
+        </div>
+        <aside className="kcli-mission">
+          <h3>창간 목적</h3>
+          <ul>
+            <li>사이버리터러시 교육 정보 제공</li>
+            <li>AI 활용과 윤리 분석</li>
+            <li>디지털 시민성·허위정보 대응</li>
+            <li>정책·연구동향·전문가 칼럼 확산</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section className="kcli-section">
+        <h3>매체소개</h3>
+        <p>
+          한국사이버리터러시저널은 사이버리터러시, 인공지능 리터러시, 디지털
+          시민성, 사이버안전, 정보윤리 등 디지털 시대의 핵심 이슈를 깊이 있게
+          다루는 전문 인터넷 신문입니다. 정확한 정보 제공과 공론의 장을 통해
+          안전하고 성숙한 디지털 사회를 만들어갑니다.
+        </p>
+      </section>
+
+      <section className="kcli-section">
+        <h3>주요 보도분야</h3>
+        <div className="kcli-coverage-grid">
+          {KCLI_COVERAGE.map((item) => (
+            <article className="kcli-coverage-card" key={item}>
+              {item}
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="kcli-section">
+        <h3>주요기사</h3>
+        <div className="kcli-article-grid">
+          {KCLI_ARTICLES.map((article) => (
+            <article className="kcli-article-card" key={article.title}>
+              <span>{article.category}</span>
+              <h4>{article.title}</h4>
+              <p>{article.summary}</p>
+              <time>2026.05.03</time>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="kcli-bottom-grid">
+        <article className="kcli-panel">
+          <h3>운영원칙</h3>
+          <ul>
+            <li>정확하고 공정한 보도를 위해 사실 확인을 최우선으로 합니다.</li>
+            <li>광고와 기사는 명확히 구분하여 독자의 판단을 존중합니다.</li>
+            <li>오류 보도에 대해서는 정정보도와 반론 보도 요청을 수용합니다.</li>
+            <li>독자의 개인정보를 보호하며, 관련 법령을 준수합니다.</li>
+          </ul>
+        </article>
+        <article className="kcli-panel">
+          <h3>제보·문의</h3>
+          <dl className="kcli-contact">
+            <div>
+              <dt>제호</dt>
+              <dd>한국사이버리터러시저널</dd>
+            </div>
+            <div>
+              <dt>홈페이지</dt>
+              <dd>http://www.kcli.ai.kr</dd>
+            </div>
+            <div>
+              <dt>발행소</dt>
+              <dd>서울특별시 금천구 디지털로 178 가산 퍼블릭 A동 1031호</dd>
+            </div>
+            <div>
+              <dt>발행인</dt>
+              <dd>오명섭</dd>
+            </div>
+            <div>
+              <dt>편집인</dt>
+              <dd>오명섭</dd>
+            </div>
+            <div>
+              <dt>등록정보</dt>
+              <dd>등록번호: 등록 후 기재 · 등록일: 등록 후 기재</dd>
+            </div>
+          </dl>
+        </article>
+      </section>
+    </main>
+  );
+}
+
+function GithubInstallGuide() {
+  return (
+    <main className="install-page">
+      <section className="install-hero">
+        <div>
+          <p className="kcli-eyebrow">Deployment Guide</p>
+          <h2>GitHub 설치 및 배포</h2>
+          <p>
+            ISO 인증 포털과 한국사이버리터러시저널 화면을 GitHub Pages에서
+            시연하기 위한 설치, 빌드, 배포 절차입니다. 서버 API 없이 정적
+            데이터 파일을 읽는 배포 모드로 빌드합니다.
+          </p>
+        </div>
+        <a
+          className="github-link"
+          href="https://github.com/roknnaoms-hub/ISO-portal"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GitHub 저장소 열기
+        </a>
+      </section>
+
+      <section className="install-grid">
+        {GITHUB_INSTALL_STEPS.map((step) => (
+          <article className="install-card" key={step.title}>
+            <h3>{step.title}</h3>
+            <pre>{step.command}</pre>
+          </article>
+        ))}
+      </section>
+
+      <section className="install-panel">
+        <h3>GitHub Pages 설정</h3>
+        <ol>
+          <li>저장소의 `Settings` 메뉴로 이동합니다.</li>
+          <li>`Pages`에서 Source를 `GitHub Actions`로 설정합니다.</li>
+          <li>`Actions` 탭에서 `Deploy to GitHub Pages` 워크플로를 실행합니다.</li>
+          <li>배포 완료 후 `https://roknnaoms-hub.github.io/ISO-portal/`에 접속합니다.</li>
+        </ol>
+      </section>
+
+      <section className="install-panel">
+        <h3>배포본 포함 화면</h3>
+        <ul>
+          <li>ISO 9001 / 14001 / 42001 / 45001 조항 검색 및 상세 보기</li>
+          <li>한국사이버리터러시저널 프로토타입 홈페이지</li>
+          <li>GitHub 설치 및 Pages 배포 안내</li>
+        </ul>
+      </section>
+    </main>
+  );
+}
+
 // ── 메인 앱 ───────────────────────────────────────────────────────────────────
 export default function App() {
   const [allClauses, setAllClauses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [sectionMode, setSectionMode] = useState("iso");
 
   const [selectedFramework, setSelectedFramework] = useState(FRAMEWORKS[0]);
   const [selectedClause, setSelectedClause] = useState(null);
@@ -218,7 +451,7 @@ export default function App() {
       try {
         setLoading(true);
         let data;
-        if (IS_STATIC) {
+        if (USE_STATIC_DATA) {
           data = await loadStaticData();
         } else {
           const res = await api.get("/api/clauses");
@@ -259,6 +492,22 @@ export default function App() {
     return buildClauseTree(list);
   }, [allClauses, selectedFramework, searchKeyword]);
 
+  useEffect(() => {
+    if (filteredClauses.length === 0) {
+      setSelectedClause(null);
+      return;
+    }
+
+    const currentStillVisible = filteredClauses.some(
+      (clause) => clause.clause_id === selectedClause?.clause_id
+    );
+
+    if (!currentStillVisible) {
+      setSelectedClause(filteredClauses[0]);
+      setActiveTab("requirement");
+    }
+  }, [filteredClauses, selectedClause?.clause_id]);
+
   const handleClauseSelect = useCallback((clause) => {
     setSelectedClause(clause);
     setActiveTab("requirement");
@@ -287,57 +536,65 @@ export default function App() {
             <span className="brand-icon">🏅</span>
             <div>
               <h1 className="brand-title">ISO 인증 포탈</h1>
-              <p className="brand-sub">요구사항 · 중점사항 · 결함사례 통합 가이드</p>
+              <p className="brand-sub">요구사항 · 중점사항 · 결함사례 · KCLI 저널</p>
             </div>
           </div>
-          <SearchBar
-            value={searchKeyword}
-            onChange={setSearchKeyword}
-            onClear={() => setSearchKeyword("")}
-          />
-        </div>
-        <FrameworkSelector
-          selected={selectedFramework}
-          onChange={handleFrameworkChange}
-        />
-      </header>
-
-      {/* ── 메인 레이아웃 ── */}
-      <main className="app-main">
-        {/* 사이드바: 조항 목록 */}
-        <aside className="sidebar">
-          <div className="sidebar-header">
-            <span className="fw-label">{FRAMEWORK_LABELS[selectedFramework]}</span>
-            <span className="clause-count">{filteredClauses.length}개 조항</span>
-          </div>
-          {error && <p className="error-msg">{error}</p>}
-          {filteredClauses.length === 0 ? (
-            <p className="empty-list">
-              {searchKeyword ? "검색 결과 없음" : "조항이 없습니다"}
-            </p>
-          ) : (
-            <ClauseTree
-              clauses={filteredClauses}
-              selectedId={selectedClause?.clause_id}
-              onSelect={handleClauseSelect}
-              searchKeyword={searchKeyword}
+          {sectionMode === "iso" && (
+            <SearchBar
+              value={searchKeyword}
+              onChange={setSearchKeyword}
+              onClear={() => setSearchKeyword("")}
             />
           )}
-        </aside>
-
-        {/* 콘텐츠 영역 */}
-        <section className="content-area">
-          <ContentBlock
-            clause={selectedClause}
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            searchKeyword={searchKeyword}
+        </div>
+        <SectionModeNav mode={sectionMode} onChange={setSectionMode} />
+        {sectionMode === "iso" && (
+          <FrameworkSelector
+            selected={selectedFramework}
+            onChange={handleFrameworkChange}
           />
-        </section>
-      </main>
+        )}
+      </header>
+
+      {sectionMode === "kcli" ? (
+        <KcliJournalHome />
+      ) : sectionMode === "github" ? (
+        <GithubInstallGuide />
+      ) : (
+        <main className="app-main">
+          <aside className="sidebar">
+            <div className="sidebar-header">
+              <span className="fw-label">{FRAMEWORK_LABELS[selectedFramework]}</span>
+              <span className="clause-count">{filteredClauses.length}개 조항</span>
+            </div>
+            {error && <p className="error-msg">{error}</p>}
+            {filteredClauses.length === 0 ? (
+              <p className="empty-list">
+                {searchKeyword ? "검색 결과 없음" : "조항이 없습니다"}
+              </p>
+            ) : (
+              <ClauseTree
+                clauses={filteredClauses}
+                selectedId={selectedClause?.clause_id}
+                onSelect={handleClauseSelect}
+                searchKeyword={searchKeyword}
+              />
+            )}
+          </aside>
+
+          <section className="content-area">
+            <ContentBlock
+              clause={selectedClause}
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              searchKeyword={searchKeyword}
+            />
+          </section>
+        </main>
+      )}
 
       <footer className="app-footer">
-        <p>ISO 인증 포탈 · 데이터 출처: KS Q ISO 표준 원문 및 인증심사원 안내서</p>
+        <p>ISO 인증 포탈 · 한국사이버리터러시저널 · 데이터 출처: KS Q ISO 표준 원문 및 인증심사원 안내서</p>
       </footer>
     </div>
   );

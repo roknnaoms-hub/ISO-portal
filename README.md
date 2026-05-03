@@ -2,6 +2,8 @@
 
 ISO 9001 / 14001 / 42001 / 45001 표준 조항별 요구사항, 조직담당자 중점사항, 인증심사원 중점사항, 결함사례를 통합 제공하는 웹 포탈입니다.
 
+상단 `KCLI 저널` 화면에서 한국사이버리터러시저널 프로토타입 홈페이지 내용을 함께 제공하며, `GitHub 설치` 화면에서 설치 및 GitHub Pages 배포 절차를 안내합니다.
+
 ## 기술 스택
 
 - **Client**: Vite 5 + React 18, port 5173
@@ -58,7 +60,21 @@ cd client && npm run build
 
 `client/dist/`에 정적 파일이 생성됩니다.
 
-GitHub Pages는 `main` 브랜치 푸시 시 자동 배포됩니다 (`.github/workflows/deploy-pages.yml`).
+GitHub Pages는 `main` 브랜치 푸시 시 `.github/workflows/deploy-pages.yml` 워크플로로 자동 배포됩니다.
+
+### GitHub Pages 설정
+
+Repository Settings > Pages에서 다음처럼 설정합니다.
+
+- Source: GitHub Actions
+- 배포 주소: `https://roknnaoms-hub.github.io/ISO-portal/`
+
+배포 워크플로는 서버 API 없이 `client/public/data/clauses.json`을 읽는 정적 모드로 빌드합니다.
+
+```bash
+cd client
+VITE_BASE_PATH=/ISO-portal/ VITE_STATIC_DATA=true npm run build
+```
 
 ---
 
