@@ -81,6 +81,13 @@ const KCLI_HERO_IMAGES = {
   주요기사: kcliImage("kcli-hero-articles.png"),
 };
 
+function getKcliVisualFromHash() {
+  if (typeof window === "undefined") return "default";
+
+  const hash = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+  return KCLI_HERO_IMAGES[hash] ? hash : "default";
+}
+
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
 function clauseDepth(id) {
   return (id.match(/\./g) || []).length;
@@ -269,8 +276,16 @@ function SearchBar({ value, onChange, onClear }) {
 }
 
 function KcliJournalHome() {
-  const [activeVisual, setActiveVisual] = useState("default");
+  const [activeVisual, setActiveVisual] = useState(getKcliVisualFromHash);
   const heroImage = KCLI_HERO_IMAGES[activeVisual] || KCLI_HERO_IMAGES.default;
+
+  useEffect(() => {
+    const syncVisualWithHash = () => setActiveVisual(getKcliVisualFromHash());
+
+    syncVisualWithHash();
+    window.addEventListener("hashchange", syncVisualWithHash);
+    return () => window.removeEventListener("hashchange", syncVisualWithHash);
+  }, []);
 
   const handleKcliNavClick = (item) => {
     setActiveVisual(KCLI_HERO_IMAGES[item.id] ? item.id : "default");
