@@ -65,6 +65,7 @@ const KCLI_ARTICLES = [
 ];
 
 const KCLI_NAV = ["매체소개", "보도분야", "주요기사", "운영원칙", "제보·문의"];
+const KCLI_HERO_IMAGE = `${import.meta.env.BASE_URL}images/kcli-hero-banner.png`;
 
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
 function clauseDepth(id) {
@@ -276,7 +277,10 @@ function KcliJournalHome() {
         </button>
       </header>
 
-      <section className="kcli-hero">
+      <section
+        className="kcli-hero"
+        style={{ "--kcli-hero-image": `url("${KCLI_HERO_IMAGE}")` }}
+      >
         <div className="kcli-hero-copy">
           <h2>디지털 시대의 시민역량과 사이버안전을 연결하는 전문 저널</h2>
           <p>

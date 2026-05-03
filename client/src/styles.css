@@ -508,9 +508,11 @@ mark { background: var(--color-mark); padding: 0 2px; border-radius: 2px; }
   gap: 34px;
   padding: 54px 40px 48px;
   background:
-    linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.88) 42%, rgba(255,255,255,.22) 72%),
-    radial-gradient(circle at 74% 28%, rgba(37,141,228,.28), transparent 27%),
+    linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.9) 38%, rgba(255,255,255,.2) 68%),
+    var(--kcli-hero-image),
     linear-gradient(145deg, #eaf5ff 0%, #cbe4f8 42%, #164d7e 100%);
+  background-position: center;
+  background-size: cover;
 }
 .kcli-hero::before {
   content: "";
@@ -535,6 +537,10 @@ mark { background: var(--color-mark); padding: 0 2px; border-radius: 2px; }
     linear-gradient(32deg, transparent 0 39%, rgba(41,146,230,.55) 40%, transparent 41%),
     linear-gradient(148deg, transparent 0 43%, rgba(41,146,230,.45) 44%, transparent 45%);
   opacity: .88;
+}
+.kcli-hero::before,
+.kcli-hero::after {
+  display: none;
 }
 .kcli-hero-copy,
 .kcli-mission {
