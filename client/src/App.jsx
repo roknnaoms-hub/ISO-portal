@@ -64,25 +64,6 @@ const KCLI_ARTICLES = [
   },
 ];
 
-const GITHUB_INSTALL_STEPS = [
-  {
-    title: "1. 저장소 가져오기",
-    command: "git clone https://github.com/roknnaoms-hub/ISO-portal.git\ncd ISO-portal",
-  },
-  {
-    title: "2. 클라이언트 의존성 설치",
-    command: "cd client\nnpm ci",
-  },
-  {
-    title: "3. 정적 배포본 빌드",
-    command: "VITE_BASE_PATH=/ISO-portal/ VITE_STATIC_DATA=true npm run build",
-  },
-  {
-    title: "4. 로컬 미리보기",
-    command: "npm run preview",
-  },
-];
-
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
 function clauseDepth(id) {
   return (id.match(/\./g) || []).length;
@@ -142,12 +123,6 @@ function SectionModeNav({ mode, onChange }) {
         onClick={() => onChange("kcli")}
       >
         KCLI 저널
-      </button>
-      <button
-        className={`mode-btn${mode === "github" ? " active" : ""}`}
-        onClick={() => onChange("github")}
-      >
-        GitHub 설치
       </button>
     </nav>
   );
@@ -379,60 +354,6 @@ function KcliJournalHome() {
   );
 }
 
-function GithubInstallGuide() {
-  return (
-    <main className="install-page">
-      <section className="install-hero">
-        <div>
-          <p className="kcli-eyebrow">Deployment Guide</p>
-          <h2>GitHub 설치 및 배포</h2>
-          <p>
-            ISO 인증 포털과 한국사이버리터러시저널 화면을 GitHub Pages에서
-            시연하기 위한 설치, 빌드, 배포 절차입니다. 서버 API 없이 정적
-            데이터 파일을 읽는 배포 모드로 빌드합니다.
-          </p>
-        </div>
-        <a
-          className="github-link"
-          href="https://github.com/roknnaoms-hub/ISO-portal"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GitHub 저장소 열기
-        </a>
-      </section>
-
-      <section className="install-grid">
-        {GITHUB_INSTALL_STEPS.map((step) => (
-          <article className="install-card" key={step.title}>
-            <h3>{step.title}</h3>
-            <pre>{step.command}</pre>
-          </article>
-        ))}
-      </section>
-
-      <section className="install-panel">
-        <h3>GitHub Pages 설정</h3>
-        <ol>
-          <li>저장소의 `Settings` 메뉴로 이동합니다.</li>
-          <li>`Pages`에서 Source를 `GitHub Actions`로 설정합니다.</li>
-          <li>`Actions` 탭에서 `Deploy to GitHub Pages` 워크플로를 실행합니다.</li>
-          <li>배포 완료 후 `https://roknnaoms-hub.github.io/ISO-portal/`에 접속합니다.</li>
-        </ol>
-      </section>
-
-      <section className="install-panel">
-        <h3>배포본 포함 화면</h3>
-        <ul>
-          <li>ISO 9001 / 14001 / 42001 / 45001 조항 검색 및 상세 보기</li>
-          <li>한국사이버리터러시저널 프로토타입 홈페이지</li>
-          <li>GitHub 설치 및 Pages 배포 안내</li>
-        </ul>
-      </section>
-    </main>
-  );
-}
-
 // ── 메인 앱 ───────────────────────────────────────────────────────────────────
 export default function App() {
   const [allClauses, setAllClauses] = useState([]);
@@ -558,8 +479,6 @@ export default function App() {
 
       {sectionMode === "kcli" ? (
         <KcliJournalHome />
-      ) : sectionMode === "github" ? (
-        <GithubInstallGuide />
       ) : (
         <main className="app-main">
           <aside className="sidebar">
