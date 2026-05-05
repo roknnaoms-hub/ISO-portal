@@ -671,16 +671,17 @@ mark { background: var(--color-mark); padding: 0 2px; border-radius: 2px; }
 }
 .kcli-intro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 28px;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.36fr);
+  gap: 28px 40px;
+  align-items: start;
 }
 .kcli-intro::after {
   content: none;
 }
 .kcli-intro-image {
+  grid-column: 1;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 5.2 / 1;
   display: block;
   border-radius: 8px;
   object-fit: cover;
