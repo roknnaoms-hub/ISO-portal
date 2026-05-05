@@ -45,22 +45,34 @@ const KCLI_COVERAGE = [
 
 const KCLI_ARTICLES = [
   {
-    category: "창간기획",
-    title: "AI 시대, 사이버리터러시는 왜 핵심 시민역량인가",
+    category: "AI·디지털 신원",
+    title: "모바일 신분증 기반 '2026 블록체인 AI 해커톤' 참가자 모집",
     summary:
-      "디지털 전환이 가속화되는 시대, 시민 모두에게 요구되는 사이버리터러시의 의미와 필요성을 조명합니다.",
+      "한국디지털인증협회가 모바일 신분증과 AI·블록체인을 결합한 서비스 아이디어 발굴을 위해 해커톤 참가자를 모집한다. KCLI 관점에서는 디지털 신원, 인증, 개인정보보호 교육과 연계해 주목할 사안이다.",
+    source: "전자신문",
+    url: "https://www.etnews.com/20260504000084",
+    publishedAt: "2026.05.04",
+    updatedAt: "2026.05.05 19:58 KST",
   },
   {
-    category: "교육",
-    title: "학교와 공공기관을 위한 AI 리터러시 교육의 방향",
+    category: "AI 신뢰성",
+    title: "AI EXPO KOREA 2026, AI 레드팀·신뢰성 검증 솔루션 주목",
     summary:
-      "효과적인 교육 설계와 실천 전략을 통해 조직과 개인의 디지털 역량을 높이는 방법을 제안합니다.",
+      "AI EXPO KOREA 2026에서 의료 AI와 LLM 기반 시스템의 안전성·윤리성·품질 검증 솔루션이 소개될 예정이다. 생성형 AI 확산에 따라 AI 시스템 검증과 레드팀 테스트의 중요성이 커지고 있다.",
+    source: "AI EXPO KOREA",
+    url: "https://www.aiexpo.co.kr/en/",
+    publishedAt: "2026.05.06~05.08",
+    updatedAt: "2026.05.05 19:58 KST",
   },
   {
-    category: "사이버안전",
-    title: "딥페이크와 피싱 위협에 대응하는 생활 보안수칙",
+    category: "사이버보안",
+    title: "AI 기반 보안 위협 확대...랜섬웨어·피싱·데이터 보안 대응 필요",
     summary:
-      "일상 속에서 지켜야 할 보안수칙과 최신 위협 사례를 통해 안전한 디지털 생활을 돕습니다.",
+      "2026년 주요 사이버 보안 위협으로 AI 기반 공격, 랜섬웨어, 클라우드 보안, 피싱·계정 탈취, 데이터 보안이 제시됐다. KCLI 저널은 생활 보안수칙과 조직 보안교육 관점에서 지속 추적할 필요가 있다.",
+    source: "삼성SDS·데일리안",
+    url: "https://www.dailian.co.kr/news/view/1612811/",
+    publishedAt: "2026.02.23",
+    updatedAt: "2026.05.05 19:58 KST",
   },
 ];
 
@@ -388,9 +400,20 @@ function KcliJournalHome() {
             <article className="kcli-article-card" key={article.title}>
               <div className="kcli-article-image" aria-hidden="true" />
               <span>{article.category}</span>
-              <h4>{article.title}</h4>
+              {article.url ? (
+                <h4>
+                  <a href={article.url} target="_blank" rel="noreferrer">
+                    {article.title}
+                  </a>
+                </h4>
+              ) : (
+                <h4>{article.title}</h4>
+              )}
               <p>{article.summary}</p>
-              <time>2026.05.03</time>
+              <div className="kcli-article-meta">
+                <b>{article.source}</b>
+                <time>{article.updatedAt || article.publishedAt}</time>
+              </div>
             </article>
           ))}
         </div>

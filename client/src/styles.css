@@ -778,9 +778,32 @@ mark { background: var(--color-mark); padding: 0 2px; border-radius: 2px; }
   font-size: 17px;
   font-weight: 900;
 }
+.kcli-article-card h4 a:hover {
+  color: #0b5aa8;
+}
 .kcli-article-card p {
   color: #5a6878;
   font-size: 13px;
+}
+.kcli-article-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 14px 16px 0;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+}
+.kcli-article-meta b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kcli-article-meta time {
+  flex: 0 0 auto;
+  margin: 0;
+  color: inherit;
 }
 .kcli-bottom-grid {
   padding: 28px 40px 34px;
