@@ -369,13 +369,20 @@ function KcliJournalHome() {
       </section>
 
       <section className="kcli-section kcli-intro" id="매체소개">
-        <h3>매체소개</h3>
-        <p>
-          한국사이버리터러시저널은 사이버리터러시, 인공지능 리터러시, 디지털
-          시민성, 사이버안전, 정보윤리 등 디지털 시대의 핵심 이슈를 깊이 있게
-          다루는 전문 인터넷 신문입니다. 정확한 정보 제공과 공론의 장을 통해
-          안전하고 성숙한 디지털 사회를 만들어갑니다.
-        </p>
+        <div>
+          <h3>매체소개</h3>
+          <p>
+            한국사이버리터러시저널은 사이버리터러시, 인공지능 리터러시, 디지털
+            시민성, 사이버안전, 정보윤리 등 디지털 시대의 핵심 이슈를 깊이 있게
+            다루는 전문 인터넷 신문입니다. 정확한 정보 제공과 공론의 장을 통해
+            안전하고 성숙한 디지털 사회를 만들어갑니다.
+          </p>
+        </div>
+        <img
+          className="kcli-intro-image"
+          src={kcliImage("kcli-hero-about.png")}
+          alt="디지털 뉴스룸과 사이버안전 네트워크를 표현한 한국사이버리터러시저널 매체소개 이미지"
+        />
       </section>
 
       <section className="kcli-section" id="보도분야">

@@ -671,25 +671,23 @@ mark { background: var(--color-mark); padding: 0 2px; border-radius: 2px; }
 }
 .kcli-intro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-columns: minmax(0, 1fr) 360px;
   gap: 28px;
   align-items: center;
 }
 .kcli-intro::after {
-  content: "NEWS";
-  display: grid;
-  place-items: center;
-  min-height: 150px;
-  border: 2px solid #c8d9ec;
-  border-radius: 8px;
-  background:
-    linear-gradient(#f5f9fd, #f5f9fd) padding-box,
-    linear-gradient(135deg, #d9e8f6, #ffffff) border-box;
-  color: #8ea7c1;
-  font-size: 34px;
-  font-weight: 900;
+  content: none;
 }
-.kcli-section > p {
+.kcli-intro-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: 62% center;
+  box-shadow: 0 10px 28px rgba(20,45,76,.12);
+}
+.kcli-section p {
   max-width: 760px;
   color: #26384d;
   font-size: 15px;
